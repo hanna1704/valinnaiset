@@ -82,10 +82,10 @@
       <li v-for="item in selected"> {{item.nimi}} </li>
       
     </ul>
-    <v-flex xs12 sm6 md3>
+    <v-flex md4>
           Nimi:<v-text-field v-model="name"  clearable />
     </v-flex>
-    <v-flex xs12 sm6 md3>
+    <v-flex   md4>
           Luokka:<v-text-field v-model="luokka"  clearable />
     </v-flex>
 
@@ -205,5 +205,17 @@ export default {
  #app {
    color: #00FFFF;
  }
+ div{
+    background-color: #B9F6CA;
+ }
+elevation-1 {
+  color: #388E3C;
+}
+
  
+</style>
+<style lang="stylus">
+  $color-pack = false
+
+  @import '~vuetify/src/stylus/main'
 </style>
