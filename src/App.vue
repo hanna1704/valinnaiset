@@ -1,11 +1,11 @@
 <template>
-<div>
-  
-    <v-data-table
-      v-model="selected"
 
-      :items="desserts"
-      :pagination.sync="pagination"
+<div>
+ 
+    <v-data-table
+      v-model="valitutpakoliset"
+
+      :items="pakolliset"
       item-key="nimi"
       class="elevation-1"
     >
@@ -15,25 +15,25 @@
             
           </th>
           <th>
-            Valinnaiset aineet
+            Pakolliset valinnaiset
           </th>
           <th>
             Tunnus
           </th>
         </tr>
       </template>
-      <template v-slot:items="props">
-        <tr :active="props.selected" @click="props.selected = !props.selected">
+      <template v-slot:items="rivi">
+        <tr :active="rivi.selected" @click="vaihdavalintap(rivi)">
           <td>
             <v-checkbox
-              :input-value="props.selected"
-              :disabled="selected.length >=  4"
+              :input-value="rivi.selected"
+              :disabled="!saakovaihtaap(rivi)"
               primary
               hide-details
             ></v-checkbox>
           </td>
-          <td>{{ props.item.nimi }}</td>
-          <td class="text-xs-right">{{ props.item.tunnus }}</td>
+          <td>{{ rivi.item.nimi }}</td>
+          <td class="text-xs-right">{{ rivi.item.tunnus }}</td>
           
         </tr>
       </template>
@@ -42,10 +42,9 @@
   
   
     <v-data-table
-      v-model="selected"
+      v-model="valitutvalinnaiset"
 
       :items="valinnaiset"
-      :pagination.sync="paginatio"
       item-key="nimi"
       class="elevation-1"
     >
@@ -63,11 +62,11 @@
         </tr>
       </template>
       <template v-slot:items="props">
-        <tr :active="props.selected" @click="props.selected = !props.selected">
+        <tr :active="props.selected" @click="vaihdavalintav(props)">
           <td>
             <v-checkbox
-              :input-value="props.selectedt"
-              :disabled="selected.length >= 4"
+              :input-value="props.selected"
+              :disabled="!saakovaihtaav(props)"
               primary
               hide-details
             ></v-checkbox>
@@ -78,8 +77,12 @@
         </tr>
       </template>
     </v-data-table>
-    <ul>
-      <li v-for="item in selected"> {{item.nimi}} </li>
+    <ul>Pakolliset valinnaiset
+      <li v-for="item in valitutpakoliset"> {{item.nimi}} </li>
+      
+    </ul>
+    <ul>Vapaasti valittavat valinnaisaineet
+      <li v-for="item in valitutvalinnaiset"> {{item.nimi}} </li>
       
     </ul>
     <v-flex md4>
@@ -89,14 +92,8 @@
           Luokka:<v-text-field v-model="luokka"  clearable />
     </v-flex>
 
-    <v-btn v-bind:disabled="name == ''" :v-bind:disabled="luokka == ''" @click="save()">Save</v-btn>
-    <v-list two-line>
-      <template  v-for="option in selected2.entries()">{{ option[1] }} 
-      
-      
-            
-      </template>
-    </v-list>
+    <v-btn v-bind:disabled="name == ''" @click="save()">Save</v-btn>
+    
 
 </div>
 </template>
@@ -108,114 +105,119 @@ import * as easings from 'vuetify/es5/util/easing-patterns'
 export default {
   
   data: () => ({
-      pagination: {
-        sortBy: 'nimi'
-      },
-      selected: [],
-      selected2: [],
       
+      valitutpakoliset: [],
+      valitutvalinnaiset: [],
+      name: '',
+      luokka: '',
      
-      desserts: [
-        {
-          nimi: 'Verkkojen hallinta',
-          tunnus: 123123
-        },
-        {
-          nimi: 'Ice cream sandwich',
-          tunnus: 237,
-          
-        },
-        {
-          nimi: 'Eclair',
-          tunnus: 262,
-          
-        },
-        {
-          nimi: 'Cupcake',
-          tunnus: 305,
-          
-        },
-        {
-          nimi: 'Olio-ohjelmointi',
-          tunnus: 234234,
-          
-        },
-        
-      ],
-      paginatio: {
-        sortBy: 'name'
-      },
-      
+      pakolliset: [],
      
-      valinnaiset: [
-        {
-          nimi: 'Verkkojen hallinta',
-          tunnus: 123123
-        },
-        
-        {
-          nimi: 'Olio-ohjelmointi',
-          tunnus: 234234,
-          
-        },
-        {
-          nimi: 'Jelly bean',
-          tunnus: 375,
-         
-        },
-        {
-          nimi: 'Lollipop',
-          tunnus: 392,
-         
-        },
-        {
-          nimi: 'Honeycomb',
-          tunnus: 408,
-          
-        },
-       
-      ]
+      valinnaiset: []
     }),
-
+    created: function () {
+      this.haetiedot()
+    },
     methods: {
+      haetiedot() {
+        var vm = this
+        var db = new restdb(process.env.VUE_APP_RESTDB_API_KEY);
+        db.pakolliset.find({}, function(err, res){
+          if (!err){
+            console.log(res)
+            vm.pakolliset = res
+          }
+        });
+        db.valinnaiset.find({}, function(err, res){
+          if (!err){
+            console.log(res)
+            vm.valinnaiset = res
+          }
+        });
+      },
       save() {
+       var db = new restdb(process.env.VUE_APP_RESTDB_API_KEY);
 
-        this.selected2.push(this.name);
-            this.name = "";
-            var nimet = "";
-            for (var i=0 ; i < this.selected2.length ; i=i+1) {
-              nimet = this.selected2[i];
-              
-            };
-        this.selected2.push(this.luokka);
-            this.luokka = "";
-            var luokat = "";
-            for (var i=0 ; i < this.selected2.length ; i=i+1) {
-              luokat = this.selected2[i];
-              
-            };
+       var vastaus = {
+         nimi: this.name, 
+         luokka: this.luokka, 
+         pvm: new Date(), 
+         valinnat: this.valitutpakoliset.join("\n")  + "\n" + this.valitutvalinnaiset.join("\n")
       }
+
+       var obj = new db.vastaukset(vastaus);
+
+       obj.save(function(err, res){
+        if (!err){
+         console.log("onnistui")
+        }
+        else {
+          console.log("ei onnistunut")
+        }
+
+      });
+        
+        
+      },
+      vaihdavalintap(rivi) {
+        
+        if  (this.saakovaihtaap(rivi)) {
+         rivi.selected = !rivi.selected
+        }
+
+
+      },
+      saakovaihtaap(rivi) {
+
+        if (rivi.selected) {
+          return true
+        }
+        for (var i=0 ; i < this.valitutvalinnaiset.length ; i++) {
+          if (this.valitutvalinnaiset[i].tunnus == rivi.item.tunnus) {
+            return false
+          }
+        }
+        if (this.valitutpakoliset.length <= 1) {
+          return true
+        }
+        return false
+  
+      },
+      vaihdavalintav(rivi) {
+        
+        if  (this.saakovaihtaav(rivi)) {
+         rivi.selected = !rivi.selected
+        }
+
+
+      },
+      saakovaihtaav(rivi) {
+
+        if (rivi.selected) {
+          return true
+        } 
+        for (var i=0 ; i < this.valitutpakoliset.length ; i++) {
+          if (this.valitutpakoliset[i].tunnus == rivi.item.tunnus) {
+            return false
+          }
+        }
+        if (this.valitutvalinnaiset.length <= 1) {
+          return true
+        }
+        return false
+  
+      }
+
       
     }
   }
 
 </script>
-<style scoped>
+<style>
   
  #app {
    color: #00FFFF;
  }
- div{
-    background-color: #B9F6CA;
- }
-elevation-1 {
-  color: #388E3C;
-}
-
  
-</style>
-<style lang="stylus">
-  $color-pack = false
-
-  @import '~vuetify/src/stylus/main'
+ 
 </style>
