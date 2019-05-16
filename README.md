@@ -50,6 +50,13 @@ Lataa tiedosto Githubista. Projekti kohdassa linkki sivulle.
 
 Tietokanta projjektia varten löytyy restdb.io tietokannnasta.
 
+Avaa cdm.exe tietokoneesta.
+
+Hae sieltä lataamasi valinnaiset tiedosto.
+
+Laita npm run serve komento tai npm buld komento ja pitäisi tulla ilmestyä linkki minkä sitten kopioit netti selaimeen.
+
+
 
 ### Tietokantaan pääseminen
 
