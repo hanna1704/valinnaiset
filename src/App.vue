@@ -142,7 +142,7 @@ export default {
          nimi: this.name, 
          luokka: this.luokka, 
          pvm: new Date(), 
-         valinnat: this.valitutpakoliset.pakolliset.join("\n")  + "\n" + this.valitutvalinnaiset.join("\n")
+         valinnat: this.valitutpakoliset.join("\n")  + "\n" + this.valitutvalinnaiset.join("\n")
       }
 
        var obj = new db.vastaukset(vastaus);
