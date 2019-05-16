@@ -37,10 +37,6 @@ Projektin tiedostot ovat https://restdb.io/ tietokannassa. [projektin tietokanta
 ### Projekti
 Projekti löytyy [Githubista](https://github.com/hanna1704/valinnaiset).
 
-<<<<<<< HEAD
-
-=======
->>>>>>> bdbfb70d8057e967468be3affffcf37ed52ba5df
 ### Projektin lataaminen
 
 Asenna Visual Studio Code koneellesi, jos ei ole.
@@ -54,7 +50,8 @@ Lataa tiedosto Githubista. Projekti kohdassa linkki sivulle.
 
 Tietokanta projjektia varten löytyy restdb.io tietokannnasta.
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bdbfb70d8057e967468be3affffcf37ed52ba5df
+### Tietokantaan pääseminen
+
+Pyydä minulta lupa tietokannan muuttamiseen, et ilmeisesti voi mennä muuttamaan tietokantaa, ilman että lisään sinut siihen.
+
