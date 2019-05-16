@@ -26,7 +26,11 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Tiedostot
+<<<<<<< HEAD
 Projektin tiedostot ovat https://restdb.io/ tietokannassa. [projektin tietokanta](https://valinnaiset-e07c.restdb.io/home/db/valinnaiset-e07c).
+=======
+Projektin tiedostot ovat https://restdb.io/ tietokannassa.
+>>>>>>> f1046a859169f2a0682c529ecd37855bb244e0fc
 
 ### .env.local
 
@@ -35,6 +39,7 @@ Projektin tiedostot ovat https://restdb.io/ tietokannassa. [projektin tietokanta
 ### Projekti
 Projekti löytyy [Githubista](https://github.com/hanna1704/valinnaiset).
 
+<<<<<<< HEAD
 ### Projektin lataaminen
 
 Asenna Visual Studio Code koneellesi, jos ei ole.
@@ -49,3 +54,6 @@ Lataa tiedosto Githubista. Projekti kohdassa linkki sivulle.
 Tietokanta projjektia varten löytyy restdb.io tietokannnasta.
 
 
+=======
+Lataa tiedostot githubista.
+>>>>>>> f1046a859169f2a0682c529ecd37855bb244e0fc
